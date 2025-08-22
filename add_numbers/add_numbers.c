@@ -181,6 +181,11 @@ int main() {
    global_size = 8; // WHY ONLY 8?
    local_size = 4; 
    num_groups = global_size/local_size;
+
+   printf("global_size = %ld\n", global_size);
+   printf("local_size = %ld\n", local_size);
+   printf("num_groups = %d\n", num_groups);
+
    input_buffer = clCreateBuffer(context, CL_MEM_READ_ONLY |
          CL_MEM_COPY_HOST_PTR, ARRAY_SIZE * sizeof(float), data, &err); // <=====INPUT
    sum_buffer = clCreateBuffer(context, CL_MEM_READ_WRITE |

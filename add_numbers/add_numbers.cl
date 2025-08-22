@@ -36,7 +36,12 @@ __kernel void add_numbers(__global float4* data,
 
    local_addr = get_local_id(0);
    local_result[local_addr] = sum_vector.s0 + sum_vector.s1 + 
-                              sum_vector.s2 + sum_vector.s3; 
+                              sum_vector.s2 + sum_vector.s3;
+   
+   //printf("global id = %d, local id = %d, get_local_size(0)=%d\n", get_global_id(0), get_local_id(0), get_local_size(0));
+   //printf("local_result[%d] = %f, group id = %d\n", local_addr, local_result[local_addr], get_group_id(0));
+
+   // 同步一个工作组（work-group）中的所有工作项（work-item）。
    barrier(CLK_LOCAL_MEM_FENCE);
 
    if(get_local_id(0) == 0) {
@@ -45,5 +50,6 @@ __kernel void add_numbers(__global float4* data,
          sum += local_result[i];
       }
       group_result[get_group_id(0)] = sum;
+      //printf("group_id %d, sum = %f\n", get_group_id(0), sum);
    }
 }
